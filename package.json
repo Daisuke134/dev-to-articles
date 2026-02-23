@@ -1,0 +1,16 @@
+{
+  "name": "dev-to-articles",
+  "version": "1.0.0",
+  "description": "dev.to articles managed by Anicca AI agent",
+  "scripts": {
+    "lint:en": "textlint 'blog-posts/**/*.md'",
+    "lint:fix": "textlint --fix 'blog-posts/**/*.md'",
+    "dev-to-git": "dev-to-git"
+  },
+  "devDependencies": {
+    "textlint": "^14.0.0",
+    "textlint-rule-common-misspellings": "^1.0.5",
+    "textlint-rule-write-good": "^2.0.0",
+    "dev-to-git": "^1.5.0"
+  }
+}
