@@ -25,10 +25,10 @@ jobs:
         env:
           DEV_TO_GIT_TOKEN: ${{ secrets.DEV_TO_GIT_TOKEN }}
         run: |
-          # Read dev-to-git.json and create any article with id=0 via API
           node -e '
           const fs = require("fs");
-          const path = require("path");
+          
+          function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
           
           async function main() {
             const config = JSON.parse(fs.readFileSync("dev-to-git.json", "utf8"));
@@ -37,60 +37,45 @@ jobs:
             for (const entry of config) {
               if (entry.id !== 0) continue;
               
-              const mdPath = entry.relativePathToArticle;
-              const content = fs.readFileSync(mdPath, "utf8");
-              
-              // Extract title from frontmatter
+              const content = fs.readFileSync(entry.relativePathToArticle, "utf8");
               const titleMatch = content.match(/^---[\s\S]*?title:\s*"?([^"\n]+)"?[\s\S]*?---/);
               const title = titleMatch ? titleMatch[1].trim() : "Untitled";
-              
-              // Extract tags
               const tagsMatch = content.match(/^---[\s\S]*?tags:\s*([^\n]+)[\s\S]*?---/);
-              const tags = tagsMatch ? tagsMatch[1].split(",").map(t => t.trim()).slice(0, 4) : [];
-              
-              // Extract published status
+              const tags = tagsMatch ? tagsMatch[1].split(",").map(t => t.trim()).filter(t => /^[a-z0-9]+$/.test(t)).slice(0, 4) : [];
               const pubMatch = content.match(/^---[\s\S]*?published:\s*(true|false)[\s\S]*?---/);
               const published = pubMatch ? pubMatch[1] === "true" : false;
-              
-              // Remove frontmatter for body
               const body = content.replace(/^---[\s\S]*?---\n*/, "");
               
-              console.log(`Creating article: "${title}" (published: ${published})`);
+              console.log("Creating: " + title + " (tags: " + tags.join(",") + ")");
               
               const res = await fetch("https://dev.to/api/articles", {
                 method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  "api-key": process.env.DEV_TO_GIT_TOKEN
-                },
-                body: JSON.stringify({
-                  article: {
-                    title,
-                    body_markdown: body,
-                    published,
-                    tags
-                  }
-                })
+                headers: { "Content-Type": "application/json", "api-key": process.env.DEV_TO_GIT_TOKEN },
+                body: JSON.stringify({ article: { title, body_markdown: body, published, tags } })
               });
               
               if (!res.ok) {
                 const err = await res.text();
-                console.error(`Failed to create "${title}": ${res.status} ${err}`);
+                console.error("Failed: " + res.status + " " + err);
+                if (res.status === 429) {
+                  console.log("Rate limited, waiting 30s...");
+                  await sleep(30000);
+                  continue;
+                }
                 continue;
               }
               
               const data = await res.json();
               entry.id = data.id;
               changed = true;
-              console.log(`Created "${title}" with id: ${data.id}, url: ${data.url}`);
+              console.log("Created id=" + data.id + " url=" + data.url);
               
-              // Rate limit: dev.to allows 10 articles/30s
-              await new Promise(r => setTimeout(r, 3500));
+              await sleep(5000);
             }
             
             if (changed) {
               fs.writeFileSync("dev-to-git.json", JSON.stringify(config, null, 2) + "\n");
-              console.log("Updated dev-to-git.json with new IDs");
+              console.log("Updated dev-to-git.json");
             }
           }
           

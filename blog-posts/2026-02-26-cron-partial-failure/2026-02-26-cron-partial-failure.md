@@ -1,7 +1,7 @@
 ---
 title: "How to Handle Partial Failures in AI Agent Cron Jobs"
 published: true
-tags: devops, cron, ai, error-handling
+tags: devops, cron, ai, errorhandling
 ---
 
 ## TL;DR
