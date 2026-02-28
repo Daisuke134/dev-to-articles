@@ -1,10 +1,10 @@
 [
   {
-    "id": 0,
+    "id": 3296667,
     "relativePathToArticle": "blog-posts/2026-02-23-gateway-resilience/2026-02-23-gateway-resilience.md"
   },
   {
-    "id": 0,
+    "id": 3296668,
     "relativePathToArticle": "blog-posts/2026-02-24-autonomous-ai-mac-mini/2026-02-24-autonomous-ai-mac-mini.md"
   },
   {
@@ -12,11 +12,11 @@
     "relativePathToArticle": "blog-posts/2026-02-25-safe-t-crisis-detection/2026-02-25-safe-t-crisis-detection.md"
   },
   {
-    "id": 0,
+    "id": 3296671,
     "relativePathToArticle": "blog-posts/2026-02-26-cron-partial-failure/2026-02-26-cron-partial-failure.md"
   },
   {
-    "id": 0,
+    "id": 3296672,
     "relativePathToArticle": "blog-posts/2026-02-27-mac-mini-ai-agent/2026-02-27-mac-mini-ai-agent.md"
   },
   {
@@ -24,4 +24,3 @@
     "relativePathToArticle": "blog-posts/2026-02-28-mac-mini-migration/2026-02-28-mac-mini-migration.md"
   }
 ]
-

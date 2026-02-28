@@ -8,6 +8,9 @@ on:
       - 'dev-to-git.json'
       - '.github/workflows/deploy.yml'
 
+permissions:
+  contents: write
+
 jobs:
   deploy:
     name: Publish articles
@@ -27,8 +30,45 @@ jobs:
         run: |
           node -e '
           const fs = require("fs");
-          
           function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+          
+          async function createArticle(entry, config) {
+            const content = fs.readFileSync(entry.relativePathToArticle, "utf8");
+            const titleMatch = content.match(/^---[\s\S]*?title:\s*"?([^"\n]+)"?[\s\S]*?---/);
+            const title = titleMatch ? titleMatch[1].trim() : "Untitled";
+            const tagsMatch = content.match(/^---[\s\S]*?tags:\s*([^\n]+)[\s\S]*?---/);
+            const tags = tagsMatch ? tagsMatch[1].split(",").map(t => t.trim()).filter(t => /^[a-z0-9]+$/.test(t)).slice(0, 4) : [];
+            const pubMatch = content.match(/^---[\s\S]*?published:\s*(true|false)[\s\S]*?---/);
+            const published = pubMatch ? pubMatch[1] === "true" : false;
+            const body = content.replace(/^---[\s\S]*?---\n*/, "");
+            
+            for (let attempt = 0; attempt < 3; attempt++) {
+              console.log("Creating: " + title + " (attempt " + (attempt+1) + ")");
+              const res = await fetch("https://dev.to/api/articles", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", "api-key": process.env.DEV_TO_GIT_TOKEN },
+                body: JSON.stringify({ article: { title, body_markdown: body, published, tags } })
+              });
+              
+              if (res.status === 429) {
+                console.log("Rate limited, waiting 35s...");
+                await sleep(35000);
+                continue;
+              }
+              if (!res.ok) {
+                const err = await res.text();
+                console.error("Failed: " + res.status + " " + err);
+                return false;
+              }
+              
+              const data = await res.json();
+              entry.id = data.id;
+              console.log("Created id=" + data.id + " url=" + data.url);
+              return true;
+            }
+            console.error("Max retries for: " + title);
+            return false;
+          }
           
           async function main() {
             const config = JSON.parse(fs.readFileSync("dev-to-git.json", "utf8"));
@@ -36,41 +76,9 @@ jobs:
             
             for (const entry of config) {
               if (entry.id !== 0) continue;
-              
-              const content = fs.readFileSync(entry.relativePathToArticle, "utf8");
-              const titleMatch = content.match(/^---[\s\S]*?title:\s*"?([^"\n]+)"?[\s\S]*?---/);
-              const title = titleMatch ? titleMatch[1].trim() : "Untitled";
-              const tagsMatch = content.match(/^---[\s\S]*?tags:\s*([^\n]+)[\s\S]*?---/);
-              const tags = tagsMatch ? tagsMatch[1].split(",").map(t => t.trim()).filter(t => /^[a-z0-9]+$/.test(t)).slice(0, 4) : [];
-              const pubMatch = content.match(/^---[\s\S]*?published:\s*(true|false)[\s\S]*?---/);
-              const published = pubMatch ? pubMatch[1] === "true" : false;
-              const body = content.replace(/^---[\s\S]*?---\n*/, "");
-              
-              console.log("Creating: " + title + " (tags: " + tags.join(",") + ")");
-              
-              const res = await fetch("https://dev.to/api/articles", {
-                method: "POST",
-                headers: { "Content-Type": "application/json", "api-key": process.env.DEV_TO_GIT_TOKEN },
-                body: JSON.stringify({ article: { title, body_markdown: body, published, tags } })
-              });
-              
-              if (!res.ok) {
-                const err = await res.text();
-                console.error("Failed: " + res.status + " " + err);
-                if (res.status === 429) {
-                  console.log("Rate limited, waiting 30s...");
-                  await sleep(30000);
-                  continue;
-                }
-                continue;
-              }
-              
-              const data = await res.json();
-              entry.id = data.id;
-              changed = true;
-              console.log("Created id=" + data.id + " url=" + data.url);
-              
-              await sleep(5000);
+              const ok = await createArticle(entry, config);
+              if (ok) changed = true;
+              await sleep(10000);
             }
             
             if (changed) {
