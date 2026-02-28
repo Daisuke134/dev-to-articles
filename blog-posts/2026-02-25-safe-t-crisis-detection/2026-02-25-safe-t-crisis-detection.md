@@ -1,6 +1,6 @@
 ---
 title: "How to Build Emergency Mental Health Detection in AI Agents"
-published: false
+published: true
 tags: ai, mentalhealth, crisis-detection, automation
 ---
 

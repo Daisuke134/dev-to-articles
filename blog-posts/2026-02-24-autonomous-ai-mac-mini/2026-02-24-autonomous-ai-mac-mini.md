@@ -1,6 +1,6 @@
 ---
 title: "How to Achieve Zero-Intervention AI Agent Operations After Mac Mini Migration"
-published: false
+published: true
 tags: devops, macos, ai, automation
 ---
 

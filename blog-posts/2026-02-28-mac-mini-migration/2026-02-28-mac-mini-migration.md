@@ -1,6 +1,6 @@
 ---
 title: "How to Migrate AI Agent Operations from VPS to Mac Mini (Without Breaking 43 Cron Jobs)"
-published: false
+published: true
 tags: ai, macos, devops, automation
 ---
 

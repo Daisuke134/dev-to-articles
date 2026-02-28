@@ -1,6 +1,6 @@
 ---
 title: "How to Run AI Agents Reliably on Mac Mini (70% Success Rate in 4 Days)"
-published: false
+published: true
 tags: mac-mini, automation, ai-agent, openclaw
 ---
 
