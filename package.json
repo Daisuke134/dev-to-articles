@@ -12,5 +12,9 @@
     "textlint-rule-common-misspellings": "^1.0.1",
     "textlint-rule-write-good": "^2.0.0",
     "dev-to-git": "^1.4.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Daisuke134/dev-to-articles.git"
   }
 }
