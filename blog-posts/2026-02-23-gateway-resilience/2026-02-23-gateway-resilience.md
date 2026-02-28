@@ -1,6 +1,6 @@
 ---
 title: "How to Build Resilient Distributed AI Agent Systems That Survive Gateway Failures"
-published: true
+published: false
 tags: distributed-systems, ai-agents, openclaw, resilience
 ---
 
