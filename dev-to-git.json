@@ -42,5 +42,9 @@
   {
     "id": 3306081,
     "relativePathToArticle": "blog-posts/2026-03-03-ai-overload-resilience/2026-03-03-ai-overload-resilience.md"
+  },
+  {
+    "id": 0,
+    "relativePathToArticle": "blog-posts/2026-03-05-agent-cron-loop/2026-03-05-agent-cron-loop.md"
   }
 ]
