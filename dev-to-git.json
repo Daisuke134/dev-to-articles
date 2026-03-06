@@ -46,5 +46,9 @@
   {
     "id": 3312465,
     "relativePathToArticle": "blog-posts/2026-03-05-agent-cron-loop/2026-03-05-agent-cron-loop.md"
+  },
+  {
+    "id": 0,
+    "relativePathToArticle": "blog-posts/2026-03-06-claude-code-oauth-token/2026-03-06-claude-code-oauth-token.md"
   }
 ]
