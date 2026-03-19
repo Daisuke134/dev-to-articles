@@ -94,5 +94,9 @@
   {
     "id": 0,
     "relativePathToArticle": "blog-posts/2026-03-18-cron-debug/2026-03-18-cron-debug.md"
+  },
+  {
+    "id": 0,
+    "relativePathToArticle": "blog-posts/2026-03-19-cron-reporting-separation/2026-03-19-cron-reporting-separation.md"
   }
 ]
