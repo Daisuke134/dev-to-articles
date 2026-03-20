@@ -98,5 +98,9 @@
   {
     "id": 0,
     "relativePathToArticle": "blog-posts/2026-03-19-cron-reporting-separation/2026-03-19-cron-reporting-separation.md"
+  },
+  {
+    "id": 0,
+    "relativePathToArticle": "blog-posts/2026-03-20-cron-slack-debug/2026-03-20-cron-slack-debug.md"
   }
 ]
