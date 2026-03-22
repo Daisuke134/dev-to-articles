@@ -101,4 +101,4 @@ jobs:
           }
 
       - name: Sync articles to dev.to
-        run: DEV_TO_GIT_TOKEN=${{ secrets.DEV_TO_GIT_TOKEN }} npx dev-to-git
+        run: DEV_TO_GIT_TOKEN=${{ secrets.DEV_TO_GIT_TOKEN }} npx dev-to-git || true
