@@ -150,5 +150,9 @@
   {
     "id": 3441295,
     "relativePathToArticle": "blog-posts/2026-04-01-cron-cascade-recovery/2026-04-01-cron-cascade-recovery.md"
+  },
+  {
+    "id": 0,
+    "relativePathToArticle": "blog-posts/2026-04-05-skill-fixer-self-healing/2026-04-05-skill-fixer-self-healing.md"
   }
 ]
