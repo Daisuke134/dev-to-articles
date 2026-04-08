@@ -154,5 +154,9 @@
   {
     "id": 3456770,
     "relativePathToArticle": "blog-posts/2026-04-05-skill-fixer-self-healing/2026-04-05-skill-fixer-self-healing.md"
+  },
+  {
+    "id": 0,
+    "relativePathToArticle": "blog-posts/2026-04-08-cron-layer-separation/2026-04-08-cron-layer-separation.md"
   }
 ]
