@@ -178,5 +178,9 @@
   {
     "id": 3505643,
     "relativePathToArticle": "blog-posts/2026-04-15-sparse-diary-cron/2026-04-15-sparse-diary-cron.md"
+  },
+  {
+    "id": 0,
+    "relativePathToArticle": "blog-posts/2026-04-16-cron-logs/2026-04-16-cron-logs.md"
   }
 ]
