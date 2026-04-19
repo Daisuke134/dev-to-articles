@@ -182,5 +182,9 @@
   {
     "id": 3510991,
     "relativePathToArticle": "blog-posts/2026-04-16-cron-logs/2026-04-16-cron-logs.md"
+  },
+  {
+    "id": 0,
+    "relativePathToArticle": "blog-posts/2026-04-19-sparse-logs/2026-04-19-sparse-logs.md"
   }
 ]
